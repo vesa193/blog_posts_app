@@ -1,18 +1,15 @@
-import React from 'react';
-import Card from '@mui/material/Card/Card';
+import { Divider } from '@mui/material';
+import Button from '@mui/material/Button';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import CardActionArea from '@mui/material/CardActionArea/CardActionArea';
+import Paper from '@mui/material/Paper/Paper';
 import Typography from '@mui/material/Typography';
-import { Divider } from '@mui/material';
 import { PostCardProps } from '../../interfaces/interfaces';
 
-const PostCard = ({ title, body, author, handleOnClick }: PostCardProps) => {
+const PostCard = ({ title, body, author, hasButton, handleOnClick }: PostCardProps) => {
     return (
-        <Card sx={{ maxWidth: 'auto' }}>
-            <CardActionArea>
-                <CardContent>
+        <Paper variant="outlined" sx={{ maxWidth: 'auto' }}>
+            <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
                     {title}
                 </Typography>
@@ -20,17 +17,16 @@ const PostCard = ({ title, body, author, handleOnClick }: PostCardProps) => {
                     {body}
                 </Typography>
                 <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
-                <Typography variant="body1" color="text.primary">
+                <Typography variant="body1" sx={{ color: '#777' }}>
                     {author}
                 </Typography>
-                </CardContent>
-            </CardActionArea>
-            <CardActions>
+            </CardContent>
+            {hasButton && (<CardActions>
                 <Button size="small" color="primary" onClick={handleOnClick}>
                     View Post
                 </Button>
-            </CardActions>
-        </Card>
+            </CardActions>)}
+        </Paper>
     );
 }
  

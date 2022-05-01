@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Grid from '@mui/material/Grid/Grid';
 import PostCard from '../../components/PostCard/PostCard';
 import { AppProps, PostsList, UsersList } from '../../interfaces/interfaces';
+import Header from '../../components/Header/Header';
+import Container from '@mui/material/Container/Container';
 
 const Posts = ({ log }: AppProps) => {
     const navigate = useNavigate();
@@ -24,20 +26,24 @@ const Posts = ({ log }: AppProps) => {
     const getUser = (userId: number) => users?.find(user => user.id === userId ? user : ''); 
 
     return (
-        <Grid container justifyContent="center" spacing={2}>
-            {posts?.map(post => {
-                return (
-                    <Grid key={post.id} item xs={10}>
-                        <PostCard
-                            title={post.title}
-                            body={post.body}
-                            author={getUser(post?.userId)?.name}
-                            handleOnClick={() => navigate(`/post/${post.id}`)}
-                        />
-                    </Grid>
-                );
-            })}
-        </Grid>
+        <Container>
+            <Header title="Posts" />
+            <Grid justifyContent="center" spacing={2}>
+                {posts?.map(post => {
+                    return (
+                        <Grid key={post.id} item xs={10} sx={{paddingBottom: 2}}>
+                            <PostCard
+                                title={post.title}
+                                body={post.body}
+                                author={getUser(post?.userId)?.name}
+                                hasButton
+                                handleOnClick={() => navigate(`/post/${post.id}`, {state: {userId: post.userId}})}
+                            />
+                        </Grid>
+                    );
+                })}
+            </Grid>
+        </Container>
     );
 }
 

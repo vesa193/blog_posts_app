@@ -24,10 +24,26 @@ export interface User {
 }
 
 // PostCard - interface
-
 export interface PostCardProps {
     title: string;
     body: string;
     author: string | undefined;
-    handleOnClick: () => void;
+    hasButton?: boolean;
+    handleOnClick?: () => void;
+}
+
+// Post - interface
+
+export interface CommentsList {
+    comments: Comment[];
+}
+export interface Comment {
+    postId?: number;
+    id?: number;
+    name: string;
+    email: string;
+    body: string;
+}
+export interface HeaderProps {
+    title: string;
 }
