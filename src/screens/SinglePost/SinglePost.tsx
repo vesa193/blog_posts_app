@@ -8,7 +8,7 @@ import PostComment from '../../components/PostComment/PostComment';
 import { AppProps, CommentsList, Post, User } from '../../interfaces/interfaces';
 
 interface CustomizedState {
-    userId: number
+    userId: number;
 }
 
 const SinglePost = ({ log }: AppProps) => {
@@ -16,22 +16,23 @@ const SinglePost = ({ log }: AppProps) => {
     const [post, setPost] = useState<Post | null>(null);
     const [user, setUser] = useState<User | null>(null);
     const [comments, setComments] = useState<CommentsList['comments'] | null>(null);
-    const postId = location.pathname.split('/').at(-1);
+    const postId: string | undefined = location.pathname.split('/').at(-1);
     const state = location.state as CustomizedState;
-    const {userId} = state;
+    const { userId } = state;
 
     useEffect(() => {
+        // eslint-disable-next-line no-console
         console.log(`${log} SinglePost`);
 
-        fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`)
-            .then(response => response.json())
-            .then(json => setPost(json));
+        fetch(`https://jsonplaceholder.typicode.com/posts/${postId || ''}`)
+            .then((response) => response.json())
+            .then((json) => setPost(json));
         fetch(`https://jsonplaceholder.typicode.com/users/${userId}`)
-            .then(response => response.json())
-            .then(json => setUser(json));
-        fetch(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`)
-            .then(response => response.json())
-            .then(json => setComments(json));
+            .then((response) => response.json())
+            .then((json) => setUser(json));
+        fetch(`https://jsonplaceholder.typicode.com/posts/${postId || ''}/comments`)
+            .then((response) => response.json())
+            .then((json) => setComments(json));
     }, [setPost, setUser, setComments, postId, userId, log]);
 
     return (
@@ -46,25 +47,19 @@ const SinglePost = ({ log }: AppProps) => {
                 />
             </Grid>
             <Divider sx={{ margin: '40px 0' }} />
-            <Typography sx={{ marginBottom: '40px 0' }} variant="h6">Comments</Typography>
+            <Typography sx={{ marginBottom: '40px 0' }} variant="h6">
+                Comments
+            </Typography>
             <br />
-            {comments?.length ?
-                (
-                    <Grid item xs={10} sx={{ backgroundColor: '#ccc', padding: 4 }}>
-                        {comments?.map(comment => {
-                            return (
-                                <PostComment
-                                    key={comment.id}
-                                    name={comment.name}
-                                    email={comment.email}
-                                    body={comment.body}
-                                />
-                            );
-                        })}
-                    </Grid>
-                ) : null}
+            {comments?.length ? (
+                <Grid item xs={10} sx={{ backgroundColor: '#ccc', padding: 4 }}>
+                    {comments?.map((comment) => (
+                        <PostComment key={comment.id} name={comment.name} email={comment.email} body={comment.body} />
+                    ))}
+                </Grid>
+            ) : null}
         </Container>
     );
-}
+};
 
 export default SinglePost;

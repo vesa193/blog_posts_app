@@ -3,24 +3,26 @@ export interface AppProps {
     log: string;
 }
 
-export interface PostsList {
-    posts: Post[];
-}
-
 export interface Post {
     id: number;
     title: string;
     body: string;
     userId: number;
 }
+export interface PostsList {
+    posts: Post[];
+}
 
-export interface UsersList {
-    users: User[];
+export interface CustomizedState {
+    userId: number;
 }
 
 export interface User {
     id: number;
     name: string;
+}
+export interface UsersList {
+    users: User[];
 }
 
 // PostCard - interface
@@ -32,11 +34,8 @@ export interface PostCardProps {
     handleOnClick?: () => void;
 }
 
-// Post - interface
+// Comment - interface
 
-export interface CommentsList {
-    comments: Comment[];
-}
 export interface Comment {
     postId?: number;
     id?: number;
@@ -44,6 +43,11 @@ export interface Comment {
     email: string;
     body: string;
 }
+export interface CommentsList {
+    comments: Comment[];
+}
+
+// Header - interface
 export interface HeaderProps {
     title: string;
 }
