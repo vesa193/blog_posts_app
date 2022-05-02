@@ -5,7 +5,7 @@ import './PostComment.css';
 
 const PostComment = ({ name, email, body }: Comment) => (
     <Paper className="post-comment">
-        <Grid container wrap="nowrap" spacing={2}>
+        <Grid container wrap="nowrap">
             <Grid justifyContent="left" item xs zeroMinWidth>
                 <h4 className="post-comment-name">{name}</h4>
                 <p className="post-comment-body">{body}</p>

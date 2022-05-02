@@ -5,30 +5,33 @@ import Container from '@mui/material/Container/Container';
 import PostCard from '../../components/PostCard/PostCard';
 import { AppProps, PostsList, UsersList } from '../../interfaces/interfaces';
 import Header from '../../components/Header/Header';
+import { serverURL } from '../../api/api';
 
 const Posts = ({ log }: AppProps) => {
     const navigate = useNavigate();
     const [posts, setPosts] = useState<PostsList['posts'] | null>(null);
     const [users, setUsers] = useState<UsersList['users'] | null>(null);
+    const apiURL = serverURL || '';
 
     useEffect(() => {
         // eslint-disable-next-line no-console
         console.log(`${log} Posts`);
 
-        fetch('https://jsonplaceholder.typicode.com/posts')
+        fetch(`${apiURL}/posts`)
             .then((response) => response.json())
             .then((json) => setPosts(json));
-        fetch('https://jsonplaceholder.typicode.com/users')
+
+        fetch(`${apiURL}/users`)
             .then((response) => response.json())
             .then((json) => setUsers(json));
-    }, [setPosts, setUsers, log]);
+    }, [setPosts, setUsers, apiURL, log]);
 
     const getUser = (userId: number) => users?.find((user) => (user.id === userId ? user : ''));
 
     return (
         <Container>
             <Header title="Posts" />
-            <Grid justifyContent="center" spacing={2}>
+            <Grid justifyContent="center">
                 {posts?.map((post) => (
                     <Grid key={post.id} item xs={10} sx={{ paddingBottom: 2 }}>
                         <PostCard

@@ -2,6 +2,7 @@ import { Container, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid/Grid';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { serverURL } from '../../api/api';
 import Header from '../../components/Header/Header';
 import PostCard from '../../components/PostCard/PostCard';
 import PostComment from '../../components/PostComment/PostComment';
@@ -13,6 +14,7 @@ interface CustomizedState {
 
 const SinglePost = ({ log }: AppProps) => {
     const location = useLocation();
+    const apiURL = serverURL || '';
     const [post, setPost] = useState<Post | null>(null);
     const [user, setUser] = useState<User | null>(null);
     const [comments, setComments] = useState<CommentsList['comments'] | null>(null);
@@ -24,16 +26,18 @@ const SinglePost = ({ log }: AppProps) => {
         // eslint-disable-next-line no-console
         console.log(`${log} SinglePost`);
 
-        fetch(`https://jsonplaceholder.typicode.com/posts/${postId || ''}`)
+        fetch(`${apiURL}/posts/${postId || ''}`)
             .then((response) => response.json())
             .then((json) => setPost(json));
-        fetch(`https://jsonplaceholder.typicode.com/users/${userId}`)
+
+        fetch(`${apiURL}/users/${userId}`)
             .then((response) => response.json())
             .then((json) => setUser(json));
-        fetch(`https://jsonplaceholder.typicode.com/posts/${postId || ''}/comments`)
+
+        fetch(`${apiURL}/posts/${postId || ''}/comments`)
             .then((response) => response.json())
             .then((json) => setComments(json));
-    }, [setPost, setUser, setComments, postId, userId, log]);
+    }, [setPost, setUser, setComments, apiURL, postId, userId, log]);
 
     return (
         <Container>
@@ -47,9 +51,8 @@ const SinglePost = ({ log }: AppProps) => {
                 />
             </Grid>
             <Divider sx={{ margin: '40px 0' }} />
-            <Typography sx={{ marginBottom: '40px 0' }} variant="h6">
-                Comments
-            </Typography>
+            <Typography variant="h6">Comments</Typography>
+            <br />
             <br />
             {comments?.length ? (
                 <Grid item xs={10} sx={{ backgroundColor: '#ccc', padding: 4 }}>
