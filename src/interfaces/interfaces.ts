@@ -51,3 +51,12 @@ export interface CommentsList {
 export interface HeaderProps {
     title: string;
 }
+
+export interface Query {
+    search: string;
+}
+
+export interface SearchBoxProps {
+    label: string;
+    handleOnChange: () => void;
+}
